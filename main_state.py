@@ -8,13 +8,12 @@ direction = 4
 class Cookie:
     def __init__(self):
         self.Width, self.Height = 80, 100
-        self.x, self.y = 200, 90
+        self.x, self.y = 200, 115
         self.frame = 0
         self.image1 = load_image('brave_cookie_run.png')
         self.image2 = load_image('brave_cookie_slide.png')
 
     def update(self):
-        delay(0.05)
         self.frame = (self.frame + 1) % direction
 
     def draw(self):
@@ -27,10 +26,11 @@ class Cookie:
 class Land1:
     def __init__(self):
         self.x1, self.x2, self.y = 500, 1500, 250
+        self.x3 = 35
         self.Width, self.Height = 1000, 500
-        self.frame = 0
         self.image1 = load_image('land1_stage1_bg.png')
         self.image2 = load_image('land1_stage1_bg.png')
+        self.image3 = load_image('land1_stage1_ob.png')
 
     def update(self):
         self.x1 -= 2
@@ -39,6 +39,10 @@ class Land1:
     def draw(self):
         self.image1.clip_draw(0, 0, self.Width, self.Height, self.x1, self.y)
         self.image2.clip_draw(0, 0, self.Width, self.Height, self.x2, self.y)
+        for i in range(100):
+            if self.x3 > 0:
+                self.image3.clip_draw(315, 80, 70, 70, self.x3 + (i * 62), 35)
+            self.x3 -= 0.1
 
 
 cookie = Cookie()
@@ -73,7 +77,7 @@ while running:
 
     land1.draw()
     cookie.draw()
+    delay(0.05)
 
     update_canvas()
-
 close_canvas()
