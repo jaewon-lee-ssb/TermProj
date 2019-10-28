@@ -1,83 +1,59 @@
+import random
+import json
+import os
+
 from pico2d import *
 
-open_canvas(1000, 500)
+import game_framework
 
-direction = 4
+from cookie import Cookie
+from land import Land
 
+name = "MainState"
 
-class Cookie:
-    def __init__(self):
-        self.Width, self.Height = 80, 100
-        self.x, self.y = 200, 115
-        self.frame = 0
-        self.image1 = load_image('brave_cookie_run.png')
-        self.image2 = load_image('brave_cookie_slide.png')
-
-    def update(self):
-        self.frame = (self.frame + 1) % direction
-
-    def draw(self):
-        if direction == 4:
-            self.image1.clip_draw(self.frame*80, 0, self.Width, self.Height, self.x, self.y)
-        elif direction == 2:
-            self.image2.clip_draw(self.frame * 110, 0, self.Width + 30, self.Height, self.x, self.y - 20, 130, 90)
+cookie = None
+land = None
+font = None
 
 
-class Land1:
-    def __init__(self):
-        self.x1, self.x2, self.y = 500, 1500, 250
-        self.x3 = 35
-        self.Width, self.Height = 1000, 500
-        self.image1 = load_image('land1_stage1_bg.png')
-        self.image2 = load_image('land1_stage1_bg.png')
-        self.image3 = load_image('land1_stage1_ob.png')
-
-    def update(self):
-        self.x1 -= 2
-        self.x2 -= 2
-
-    def draw(self):
-        self.image1.clip_draw(0, 0, self.Width, self.Height, self.x1, self.y)
-        self.image2.clip_draw(0, 0, self.Width, self.Height, self.x2, self.y)
-        for i in range(100):
-            if self.x3 > 0:
-                self.image3.clip_draw(315, 80, 70, 70, self.x3 + (i * 62), 35)
-            self.x3 -= 0.1
+def enter():
+    global cookie, land
+    boy = Cookie()
+    land = Land()
 
 
-cookie = Cookie()
-land1 = Land1()
-running = True
+def exit():
+    global cookie, land
+    del cookie
+    del land
+
+
+def pause():
+    pass
+
+
+def resume():
+    pass
 
 
 def handle_events():
-    global running
-    global direction
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            running = False
-        elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                running = False
-            elif event.key == SDLK_s:
-                direction = 2
-        elif event.type == SDL_KEYUP:
-            if event.key == SDLK_s:
-                direction = 4
+            game_framework.quit()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            game_framework.quit()
+        else:
+            cookie.handle_event(event)
 
 
-while running:
-    handle_events()
-
-    land1.update()
+def update():
+    land.update()
     cookie.update()
 
+
+def draw():
     clear_canvas()
-
-    land1.draw()
+    land.draw()
     cookie.draw()
-    delay(0.05)
-
     update_canvas()
-close_canvas()
