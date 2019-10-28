@@ -15,9 +15,9 @@ class Land:
         self.x2 -= 2
 
     def draw(self):
-        self.image1.clip_draw(0, 0, self.Width, self.Height, self.x1, self.y)
-        self.image2.clip_draw(0, 0, self.Width, self.Height, self.x2, self.y)
+        self.image1_1.clip_draw(0, 0, self.Width, self.Height, self.x1, self.y)
+        self.image1_2.clip_draw(0, 0, self.Width, self.Height, self.x2, self.y)
         for i in range(100):
             if self.x3 > 0:
-                self.image3.clip_draw(315, 80, 70, 70, self.x3 + (i * 62), 35)
+                self.image1_3.clip_draw(315, 80, 70, 70, self.x3 + (i * 62), 35)
             self.x3 -= 0.1

@@ -18,7 +18,7 @@ font = None
 
 def enter():
     global cookie, land
-    boy = Cookie()
+    cookie = Cookie()
     land = Land()
 
 
@@ -57,3 +57,4 @@ def draw():
     land.draw()
     cookie.draw()
     update_canvas()
+    delay(0.05)
