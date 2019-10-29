@@ -1,12 +1,12 @@
 from pico2d import *
 import game_framework
 
-s_DOWN, s_UP, SPACE_DOWN, JumpToIdle, JumpToSlide = range(5)
+s_DOWN, s_UP, SPACE_DOWN, JumpToIdle, JumpToSlide, CookieDeath = range(6)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_s): s_DOWN,
     (SDL_KEYUP, SDLK_s): s_UP,
-    (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN,
 }
 
 
@@ -27,6 +27,9 @@ class IdleState:
     @staticmethod
     def do(cookie):
         cookie.frame = (cookie.frame + 1) % 4
+        cookie.lifetime -= 1
+        if cookie.lifetime == 0:
+            cookie.add_event(CookieDeath)
 
     @staticmethod
     def draw(cookie):
@@ -49,6 +52,7 @@ class SlideState:
     @staticmethod
     def do(cookie):
         cookie.frame = (cookie.frame + 1) % 2
+        cookie.lifetime -= 1
 
     @staticmethod
     def draw(cookie):
@@ -60,15 +64,14 @@ class SlideState:
 class JumpState:
     @staticmethod
     def enter(cookie, event):
-        if event == SPACE_DOWN:
-            if not cookie.isJump:
-                cookie.isJump = True
-                cookie.acceleration = 20
+        if event == SPACE_DOWN and not cookie.isJump:
+            cookie.isJump = True
+            cookie.acceleration = 25
+            cookie.frame = 0
         elif event == s_UP:
             cookie.isSlide = False
         elif event == s_DOWN:
             cookie.isSlide = True
-        cookie.frame = 0
 
     @staticmethod
     def exit(cookie, event):
@@ -76,9 +79,10 @@ class JumpState:
 
     @staticmethod
     def do(cookie):
+        cookie.lifetime -= 1
         if cookie.isJump:
             cookie.frame = (cookie.frame + 1) % 2
-            cookie.acceleration -= 2
+            cookie.acceleration -= 3
             cookie.y += cookie.acceleration
             if cookie.y < 115:
                 cookie.y = 115
@@ -93,14 +97,85 @@ class JumpState:
         cookie.image3.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, cookie.x, cookie.y, 100, 120)
 
 
+class DoubleJumpState:
+    @staticmethod
+    def enter(cookie, event):
+        if event == SPACE_DOWN and not cookie.isDoubleJump:
+            cookie.isDoubleJump = True
+            cookie.acceleration = 30
+            cookie.frame = 0
+        elif event == s_UP:
+            cookie.isSlide = False
+        elif event == s_DOWN:
+            cookie.isSlide = True
+
+    @staticmethod
+    def exit(cookie, event):
+        pass
+
+    @staticmethod
+    def do(cookie):
+        cookie.lifetime -= 1
+        if cookie.isDoubleJump:
+            if cookie.frame < 8:
+                cookie.frame += 1
+                cookie.frametime = 1
+            cookie.frametime -= 1
+            if 8 < cookie.frame and cookie.frametime == 0:
+                cookie.frame += 1
+                cookie.frametime = 2
+            cookie.acceleration -= 3
+            cookie.y += cookie.acceleration
+            if cookie.y < 115:
+                cookie.y = 115
+                cookie.isJump = False
+                cookie.isDoubleJump = False
+                if not cookie.isSlide:
+                    cookie.add_event(JumpToIdle)
+                elif cookie.isSlide:
+                    cookie.add_event(JumpToSlide)
+
+    @staticmethod
+    def draw(cookie):
+        cookie.image4.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, cookie.x, cookie.y, 100, 120)
+
+
+class DeathState:
+    @staticmethod
+    def enter(cookie, event):
+        cookie.frame = 0
+        cookie.frametime = 5
+        pass
+
+    @staticmethod
+    def exit(cookie, event):
+        pass
+
+    @staticmethod
+    def do(cookie):
+        cookie.frametime -= 1
+        if cookie.frame < 3 and cookie.frametime == 0:
+            cookie.frame += 1
+            cookie.frametime = 5
+        pass
+
+    @staticmethod
+    def draw(cookie):
+        cookie.image5.clip_draw(cookie.frame * 120, 0, cookie.Width + 30, cookie.Height, cookie.x, cookie.y, 150, 130)
+        pass
+
+
 next_state_table = {
     IdleState: {s_DOWN: SlideState, s_UP: SlideState,
-                SPACE_DOWN: JumpState},
+                SPACE_DOWN: JumpState, CookieDeath: DeathState},
     SlideState: {s_DOWN: IdleState, s_UP: IdleState,
                  SPACE_DOWN: JumpState},
-    JumpState: {SPACE_DOWN: JumpState,
+    JumpState: {SPACE_DOWN: DoubleJumpState,
                 JumpToIdle: IdleState, JumpToSlide: SlideState,
-                s_DOWN: JumpState, s_UP: JumpState}
+                s_DOWN: JumpState, s_UP: JumpState},
+    DoubleJumpState: {SPACE_DOWN: DoubleJumpState,
+                      JumpToIdle: IdleState, JumpToSlide: SlideState,
+                      s_DOWN: JumpState, s_UP: JumpState}
 }
 
 
@@ -112,10 +187,15 @@ class Cookie:
         self.movement = 0
         self.isSlide = False
         self.isJump = False
+        self.isDoubleJump = False
+        self.lifetime = 200
+        self.frametime = 0
         self.acceleration = 0
         self.image1 = load_image('BraveCookie\\brave_cookie_run.png')
         self.image2 = load_image('BraveCookie\\brave_cookie_slide.png')
         self.image3 = load_image('BraveCookie\\brave_cookie_jump.png')
+        self.image4 = load_image('BraveCookie\\brave_cookie_double_jump.png')
+        self.image5 = load_image('BraveCookie\\brave_cookie_death.png')
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
