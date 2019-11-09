@@ -1,6 +1,8 @@
 from pico2d import *
 import game_framework
 
+import game_world
+
 s_DOWN, s_UP, SPACE_DOWN, JumpToIdle, JumpToSlide, CookieDeath = range(6)
 
 key_event_table = {
@@ -119,11 +121,11 @@ class DoubleJumpState:
         if cookie.isDoubleJump:
             if cookie.frame < 8:
                 cookie.frame += 1
-                cookie.frametime = 1
-            cookie.frametime -= 1
-            if 8 < cookie.frame and cookie.frametime == 0:
+                cookie.delayframe = 1
+            cookie.delayframe -= 1
+            if 8 < cookie.frame and cookie.delayframe == 0:
                 cookie.frame += 1
-                cookie.frametime = 2
+                cookie.delayframe = 2
             cookie.acceleration -= 3
             cookie.y += cookie.acceleration
             if cookie.y < 115:
@@ -144,7 +146,7 @@ class DeathState:
     @staticmethod
     def enter(cookie, event):
         cookie.frame = 0
-        cookie.frametime = 5
+        cookie.delayframe = 5
         pass
 
     @staticmethod
@@ -153,10 +155,10 @@ class DeathState:
 
     @staticmethod
     def do(cookie):
-        cookie.frametime -= 1
-        if cookie.frame < 3 and cookie.frametime == 0:
+        cookie.delayframe -= 1
+        if cookie.frame < 3 and cookie.delayframe == 0:
             cookie.frame += 1
-            cookie.frametime = 5
+            cookie.delayframe = 5
         pass
 
     @staticmethod
@@ -175,7 +177,7 @@ next_state_table = {
                 s_DOWN: JumpState, s_UP: JumpState},
     DoubleJumpState: {SPACE_DOWN: DoubleJumpState,
                       JumpToIdle: IdleState, JumpToSlide: SlideState,
-                      s_DOWN: JumpState, s_UP: JumpState}
+                      s_DOWN: DoubleJumpState, s_UP: DoubleJumpState}
 }
 
 
@@ -189,7 +191,7 @@ class Cookie:
         self.isJump = False
         self.isDoubleJump = False
         self.lifetime = 200
-        self.frametime = 0
+        self.delayframe = 0
         self.acceleration = 0
         self.image1 = load_image('BraveCookie\\brave_cookie_run.png')
         self.image2 = load_image('BraveCookie\\brave_cookie_slide.png')

@@ -5,6 +5,7 @@ import os
 from pico2d import *
 
 import game_framework
+import game_world
 
 from cookie import Cookie
 from land import Land
@@ -20,6 +21,8 @@ def enter():
     global cookie, land
     cookie = Cookie()
     land = Land()
+    game_world.add_object(land, 0)
+    game_world.add_object(cookie, 1)
 
 
 def exit():
@@ -48,13 +51,13 @@ def handle_events():
 
 
 def update():
-    land.update()
-    cookie.update()
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 
 def draw():
     clear_canvas()
-    land.draw()
-    cookie.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     update_canvas()
     delay(0.05)
