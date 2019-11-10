@@ -1,5 +1,4 @@
 from pico2d import *
-from land_tile import Tile
 
 
 class Land:

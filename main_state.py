@@ -5,8 +5,6 @@ import os
 from pico2d import *
 
 import game_framework
-import game_world
-import land_tile
 
 from cookie import Cookie
 from land import Land
@@ -19,16 +17,13 @@ land = None
 font = None
 tile = None
 tile_list = list()
-tile_list
+
 
 def enter():
     global cookie, land, tile
     cookie = Cookie()
     land = Land()
     tile = Tile()
-    game_world.add_object(land, 0)
-    game_world.add_object(cookie, 1)
-    game_world.add_object(tile, 1)
 
 
 def exit():
@@ -58,12 +53,14 @@ def handle_events():
 
 
 def update():
-    for game_object in game_world.all_objects():
-        game_object.update()
+    land.update()
+    cookie.update()
+    tile.update()
 
 
 def draw():
     clear_canvas()
-    for game_object in game_world.all_objects():
-        game_object.draw()
+    land.draw()
+    cookie.draw()
+    tile.draw(cookie)
     update_canvas()
