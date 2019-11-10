@@ -9,6 +9,7 @@ import game_framework
 from cookie import Cookie
 from land import Land
 from land_tile import Tile
+from obstacle import Obstacle
 
 name = "MainState"
 
@@ -16,21 +17,23 @@ cookie = None
 land = None
 font = None
 tile = None
-tile_list = list()
+obstacle = None
 
 
 def enter():
-    global cookie, land, tile
+    global cookie, land, tile, obstacle
     cookie = Cookie()
     land = Land()
     tile = Tile()
+    obstacle = Obstacle()
 
 
 def exit():
-    global cookie, land, tile
+    global cookie, land, tile, obstacle
     del cookie
     del land
     del tile
+    del obstacle
 
 
 def pause():
@@ -54,13 +57,15 @@ def handle_events():
 
 def update():
     land.update()
-    cookie.update()
     tile.update()
+    obstacle.update()
+    cookie.update()
 
 
 def draw():
     clear_canvas()
     land.draw()
-    cookie.draw()
     tile.draw(cookie)
+    obstacle.draw(cookie)
+    cookie.draw()
     update_canvas()

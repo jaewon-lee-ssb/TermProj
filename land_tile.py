@@ -21,6 +21,8 @@ class Tile:
         global tile_image
         for pos in self.tile_list:
             tile_image.clip_draw(315, 80, 63, 70, pos.x - cookie.x + 200, pos.y)
+            if pos.x - cookie.x > 1000:
+                break
         pass
 
     def update(self):
