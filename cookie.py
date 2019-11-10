@@ -28,6 +28,7 @@ class IdleState:
 
     @staticmethod
     def do(cookie):
+        cookie.x += 1
         cookie.frame = (cookie.frame + 1) % 4
         cookie.lifetime -= 1
         if cookie.lifetime == 0:
@@ -35,7 +36,7 @@ class IdleState:
 
     @staticmethod
     def draw(cookie):
-        cookie.image1.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, cookie.x, cookie.y, 80, 90)
+        cookie.image1.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 80, 90)
 
 
 class SlideState:
@@ -60,7 +61,7 @@ class SlideState:
     def draw(cookie):
         if cookie.isSlide and not cookie.isJump:
             cookie.image2.clip_draw(cookie.frame * 110, 0, cookie.Width + 30, cookie.Height,
-                                    cookie.x, cookie.y - 20, 130, 80)
+                                    200, cookie.y - 20, 130, 80)
 
 
 class JumpState:
@@ -96,7 +97,7 @@ class JumpState:
 
     @staticmethod
     def draw(cookie):
-        cookie.image3.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, cookie.x, cookie.y, 100, 120)
+        cookie.image3.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 100, 120)
 
 
 class DoubleJumpState:
@@ -139,7 +140,7 @@ class DoubleJumpState:
 
     @staticmethod
     def draw(cookie):
-        cookie.image4.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, cookie.x, cookie.y, 100, 120)
+        cookie.image4.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 100, 120)
 
 
 class DeathState:
@@ -163,7 +164,7 @@ class DeathState:
 
     @staticmethod
     def draw(cookie):
-        cookie.image5.clip_draw(cookie.frame * 120, 0, cookie.Width + 30, cookie.Height, cookie.x, cookie.y, 150, 130)
+        cookie.image5.clip_draw(cookie.frame * 120, 0, cookie.Width + 30, cookie.Height, 200, cookie.y, 150, 130)
         pass
 
 
@@ -190,7 +191,7 @@ class Cookie:
         self.isSlide = False
         self.isJump = False
         self.isDoubleJump = False
-        self.lifetime = 200
+        self.lifetime = 200000
         self.delayframe = 0
         self.acceleration = 0
         self.image1 = load_image('BraveCookie\\brave_cookie_run.png')

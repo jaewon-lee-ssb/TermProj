@@ -18,7 +18,8 @@ cookie = None
 land = None
 font = None
 tile = None
-
+tile_list = list()
+tile_list
 
 def enter():
     global cookie, land, tile
@@ -66,4 +67,3 @@ def draw():
     for game_object in game_world.all_objects():
         game_object.draw()
     update_canvas()
-    delay(0.05)
