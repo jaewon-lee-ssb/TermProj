@@ -9,6 +9,24 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN,
 }
 
+PIXEL_PER_METER = (10.0 / 0.3)
+RUN_SPEED_KMPH = 40.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+JUMP_SPEED_KMPH = 30.0
+JUMP_SPEED_MPM = (JUMP_SPEED_KMPH * 1000.0 / 60.0)
+JUMP_SPEED_MPS = (JUMP_SPEED_MPM / 60.0)
+JUMP_SPEED_PPS = (JUMP_SPEED_MPS * PIXEL_PER_METER)
+
+GRAVITY_SPEED_MPS = 10
+GRAVITY_SPEED_PPS = (JUMP_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
+
 
 class IdleState:
     @staticmethod
@@ -26,15 +44,15 @@ class IdleState:
 
     @staticmethod
     def do(cookie):
-        cookie.x += 1
-        cookie.frame = (cookie.frame + 1) % 4
+        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
+        cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         cookie.lifetime -= 1
         if cookie.lifetime == 0:
             cookie.add_event(CookieDeath)
 
     @staticmethod
     def draw(cookie):
-        cookie.image1.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 80, 90)
+        cookie.image1.clip_draw(int(cookie.frame) * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 80, 90)
 
 
 class SlideState:
@@ -52,8 +70,8 @@ class SlideState:
 
     @staticmethod
     def do(cookie):
-        cookie.x += 1
-        cookie.frame = (cookie.frame + 1) % 2
+        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
+        cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         cookie.lifetime -= 1
         if cookie.lifetime == 0:
             cookie.add_event(CookieDeath)
@@ -61,7 +79,7 @@ class SlideState:
     @staticmethod
     def draw(cookie):
         if cookie.isSlide and not cookie.isJump:
-            cookie.image2.clip_draw(cookie.frame * 110, 0, cookie.Width + 30, cookie.Height,
+            cookie.image2.clip_draw(int(cookie.frame) * 110, 0, cookie.Width + 30, cookie.Height,
                                     200, cookie.y - 20, 130, 80)
 
 
@@ -70,7 +88,7 @@ class JumpState:
     def enter(cookie, event):
         if event == SPACE_DOWN and not cookie.isJump:
             cookie.isJump = True
-            cookie.acceleration = 25
+            cookie.velocity = 5
             cookie.frame = 0
         elif event == s_UP:
             cookie.isSlide = False
@@ -84,11 +102,12 @@ class JumpState:
     @staticmethod
     def do(cookie):
         cookie.lifetime -= 1
-        cookie.x += 1
+        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
+        cookie.velocity -= GRAVITY_SPEED_PPS / 10.0 * game_framework.frame_time
+        cookie.y += cookie.velocity
         if cookie.isJump:
-            cookie.frame = (cookie.frame + 1) % 2
-            cookie.acceleration -= 3
-            cookie.y += cookie.acceleration
+            cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
+
             if cookie.y < 115:
                 cookie.y = 115
                 cookie.isJump = False
@@ -101,7 +120,7 @@ class JumpState:
 
     @staticmethod
     def draw(cookie):
-        cookie.image3.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 100, 120)
+        cookie.image3.clip_draw(int(cookie.frame) * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 100, 120)
 
 
 class DoubleJumpState:
@@ -109,7 +128,7 @@ class DoubleJumpState:
     def enter(cookie, event):
         if event == SPACE_DOWN and not cookie.isDoubleJump:
             cookie.isDoubleJump = True
-            cookie.acceleration = 30
+            cookie.velocity = 5
             cookie.frame = 0
         elif event == s_UP:
             cookie.isSlide = False
@@ -122,18 +141,18 @@ class DoubleJumpState:
 
     @staticmethod
     def do(cookie):
-        cookie.x += 1
+        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.lifetime -= 1
         if cookie.isDoubleJump:
             if cookie.frame < 8:
-                cookie.frame += 1
+                cookie.frame += FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time
                 cookie.delayframe = 1
             cookie.delayframe -= 1
             if 8 < cookie.frame and cookie.delayframe == 0:
-                cookie.frame += 1
+                cookie.frame += FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time
                 cookie.delayframe = 2
-            cookie.acceleration -= 3
-            cookie.y += cookie.acceleration
+            cookie.velocity -= GRAVITY_SPEED_PPS / 10.0 * game_framework.frame_time
+            cookie.y += cookie.velocity
             if cookie.y < 115:
                 cookie.y = 115
                 cookie.isJump = False
@@ -147,7 +166,7 @@ class DoubleJumpState:
 
     @staticmethod
     def draw(cookie):
-        cookie.image4.clip_draw(cookie.frame * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 100, 120)
+        cookie.image4.clip_draw(int(cookie.frame) * 80, 0, cookie.Width, cookie.Height, 200, cookie.y, 100, 120)
 
 
 class DeathState:
@@ -196,6 +215,7 @@ class Cookie:
         self.Width, self.Height = 80, 100
         self.x, self.y = 200, 115
         self.frame = 0
+        self.velocity = 0
         self.movement = 0
         self.isSlide = False
         self.isJump = False
