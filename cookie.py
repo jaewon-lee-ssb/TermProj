@@ -10,17 +10,17 @@ key_event_table = {
 }
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 40.0
+RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
-JUMP_SPEED_KMPH = 30.0
-JUMP_SPEED_MPM = (JUMP_SPEED_KMPH * 1000.0 / 60.0)
+JUMP_SPEED_MPM = 20.0
 JUMP_SPEED_MPS = (JUMP_SPEED_MPM / 60.0)
 JUMP_SPEED_PPS = (JUMP_SPEED_MPS * PIXEL_PER_METER)
 
-GRAVITY_SPEED_MPS = 10
+GRAVITY_SPEED_MPM = 10.0
+GRAVITY_SPEED_MPS = (GRAVITY_SPEED_MPM / 60.0)
 GRAVITY_SPEED_PPS = (JUMP_SPEED_MPS * PIXEL_PER_METER)
 
 TIME_PER_ACTION = 0.5
@@ -88,7 +88,7 @@ class JumpState:
     def enter(cookie, event):
         if event == SPACE_DOWN and not cookie.isJump:
             cookie.isJump = True
-            cookie.velocity = 5
+            cookie.velocity = JUMP_SPEED_PPS / 2.5
             cookie.frame = 0
         elif event == s_UP:
             cookie.isSlide = False
@@ -103,7 +103,7 @@ class JumpState:
     def do(cookie):
         cookie.lifetime -= 1
         cookie.x += RUN_SPEED_PPS * game_framework.frame_time
-        cookie.velocity -= GRAVITY_SPEED_PPS / 10.0 * game_framework.frame_time
+        cookie.velocity -= GRAVITY_SPEED_PPS * game_framework.frame_time
         cookie.y += cookie.velocity
         if cookie.isJump:
             cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
@@ -128,7 +128,7 @@ class DoubleJumpState:
     def enter(cookie, event):
         if event == SPACE_DOWN and not cookie.isDoubleJump:
             cookie.isDoubleJump = True
-            cookie.velocity = 5
+            cookie.velocity = JUMP_SPEED_PPS / 2.5
             cookie.frame = 0
         elif event == s_UP:
             cookie.isSlide = False
@@ -146,12 +146,7 @@ class DoubleJumpState:
         if cookie.isDoubleJump:
             if cookie.frame < 8:
                 cookie.frame += FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time
-                cookie.delayframe = 1
-            cookie.delayframe -= 1
-            if 8 < cookie.frame and cookie.delayframe == 0:
-                cookie.frame += FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time
-                cookie.delayframe = 2
-            cookie.velocity -= GRAVITY_SPEED_PPS / 10.0 * game_framework.frame_time
+            cookie.velocity -= GRAVITY_SPEED_PPS * game_framework.frame_time
             cookie.y += cookie.velocity
             if cookie.y < 115:
                 cookie.y = 115
@@ -243,6 +238,12 @@ class Cookie:
     def change_state(self, state):
         pass
 
+    def get_bb(self):
+        if not self.isSlide:
+            return 160, self.y - 50, 240, self.y + 50
+        else:
+            return 145, self.y - 45, 255, self.y + 5
+
     def add_event(self, event):
         self.event_que.insert(0, event)
         pass
@@ -257,6 +258,7 @@ class Cookie:
 
     def draw(self):
         self.cur_state.draw(self)
+        draw_rectangle(*self.get_bb())
         pass
 
     def handle_event(self, event):

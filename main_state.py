@@ -3,7 +3,7 @@ import json
 import os
 
 from pico2d import *
-
+import game_world
 import game_framework
 
 from cookie import Cookie
@@ -17,23 +17,29 @@ cookie = None
 land = None
 font = None
 tile = None
-obstacle = None
+obstacles = []
 
 
 def enter():
-    global cookie, land, tile, obstacle
+    global cookie
     cookie = Cookie()
+    game_world.add_object(cookie, 1)
+
+    global land
     land = Land()
+    game_world.add_object(land, 0)
+
+    global tile
     tile = Tile()
-    obstacle = Obstacle()
+    game_world.add_object(tile, 1)
+
+    global obstacles
+    obstacles = [Obstacle(cookie) for i in range(10)]
+    game_world.add_objects(obstacles, 1)
 
 
 def exit():
-    global cookie, land, tile, obstacle
-    del cookie
-    del land
-    del tile
-    del obstacle
+    game_world.clear()
 
 
 def pause():
@@ -56,16 +62,12 @@ def handle_events():
 
 
 def update():
-    land.update()
-    tile.update()
-    obstacle.update()
-    cookie.update()
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 
 def draw():
     clear_canvas()
-    land.draw()
-    tile.draw(cookie)
-    obstacle.draw(cookie)
-    cookie.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     update_canvas()

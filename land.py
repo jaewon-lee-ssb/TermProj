@@ -9,8 +9,6 @@ class Land:
         self.image1_2 = load_image('Land\\land1_stage1_bg.png')
 
     def update(self):
-        self.x1 -= 1
-        self.x2 -= 1
         pass
 
     def draw(self):
