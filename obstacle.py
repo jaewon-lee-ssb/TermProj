@@ -10,11 +10,12 @@ class Obstacle:
         global obstacle_image
         if self.obstacle_image is None:
             self.obstacle_image = load_image('Land\\land1_stage1_ob.png')
-        for i in range(100):
-            temp = Position()
-            temp.x = 50 + i * 100
-            temp.y = 320
-            self.obstacle_list.append(temp)
+        # for i in range(100):
+        #     temp = Position()
+        #     temp.x = 50 + i * 100
+        #     temp.y = 320
+        #     self.obstacle_list.append(temp)
+        self.obstacle_list = ((600, 320), (1000, 320))
 
     def draw(self, cookie):
         for pos in self.obstacle_list:
@@ -30,5 +31,3 @@ class Obstacle:
             elif not cookie.isSlide and pos.y - 180 < cookie.y + 50\
                     and (pos.x < cookie.x - 40 < pos.x + 40 or pos.x - 30 < cookie.x + 40 < pos.x + 30):
                 self.obstacle_list.remove(pos)
-                print('삭제')
-
