@@ -19,7 +19,7 @@ class Obstacle:
     def draw(self, cookie):
         for pos in self.obstacle_list:
             self.obstacle_image.clip_draw(0, 0, 85, 256, pos.x - cookie.x + 200, pos.y, 85, 400)
-
+            draw_rectangle(pos.x - cookie.x + 200 - 30, pos.y - 180, pos.x - cookie.x + 200 + 30, pos.y + 160)
             if pos.x - cookie.x > 1000:
                 break
 
@@ -27,6 +27,4 @@ class Obstacle:
         for pos in self.obstacle_list:
             if pos.x < -31:
                 self.obstacle_list.pop(0)
-
-    def get_bb(self, cookie):
-        return self.x - cookie.x - 10, self.y - 40, self.x - cookie.x + 10, self.y + 40
+        
