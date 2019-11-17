@@ -27,8 +27,5 @@ class Obstacle:
         for pos in self.obstacle_list:
             if cookie.x - pos.x > 250:
                 self.obstacle_list.pop(0)
-
-        for pos in self.obstacle_list:
-            if cookie.x - pos.x > 250:
-                print('충돌')
+            elif
 
