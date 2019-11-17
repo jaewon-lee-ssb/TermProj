@@ -25,7 +25,7 @@ class Tile:
                 break
         pass
 
-    def update(self):
+    def update(self, cookie):
         for pos in self.tile_list:
-            if pos.x < -31:
+            if cookie.x - pos.x > 250:
                 self.tile_list.pop(0)

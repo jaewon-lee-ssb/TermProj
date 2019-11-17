@@ -23,8 +23,12 @@ class Obstacle:
             if pos.x - cookie.x > 1000:
                 break
 
-    def update(self):
+    def update(self, cookie):
         for pos in self.obstacle_list:
-            if pos.x < -31:
+            if cookie.x - pos.x > 250:
                 self.obstacle_list.pop(0)
-        
+
+        for pos in self.obstacle_list:
+            if cookie.x - pos.x > 250:
+                print('충돌')
+

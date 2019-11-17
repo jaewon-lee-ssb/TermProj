@@ -63,8 +63,8 @@ def handle_events():
 
 def update():
     land.update()
-    tile.update()
-    obstacle.update()
+    tile.update(cookie)
+    obstacle.update(cookie)
     cookie.update()
 
 
