@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 
+
 s_DOWN, s_UP, SPACE_DOWN, JumpToIdle, JumpToSlide, CookieDeath = range(6)
 
 key_event_table = {

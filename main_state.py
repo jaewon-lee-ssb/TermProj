@@ -23,23 +23,23 @@ obstacles = []
 def enter():
     global cookie
     cookie = Cookie()
-    game_world.add_object(cookie, 1)
 
     global land
     land = Land()
-    game_world.add_object(land, 0)
 
     global tile
     tile = Tile()
-    game_world.add_object(tile, 1)
 
-    global obstacles
-    obstacles = [Obstacle(cookie) for i in range(10)]
-    game_world.add_objects(obstacles, 1)
+    global obstacle
+    obstacle = Obstacle()
 
 
 def exit():
-    game_world.clear()
+    global cookie, land, tile, obstacle
+    del cookie
+    del land
+    del tile
+    del obstacle
 
 
 def pause():
@@ -62,12 +62,16 @@ def handle_events():
 
 
 def update():
-    for game_object in game_world.all_objects():
-        game_object.update()
+    land.update()
+    tile.update()
+    obstacle.update()
+    cookie.update()
 
 
 def draw():
     clear_canvas()
-    for game_object in game_world.all_objects():
-        game_object.draw()
+    land.draw()
+    tile.draw(cookie)
+    obstacle.draw(cookie)
+    cookie.draw()
     update_canvas()
