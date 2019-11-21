@@ -18,5 +18,5 @@ class Health:
         pass
 
     def draw(self):
-        self.health_image.clip_draw(0, 10, int(self.health), 90, (self.left_x + self.right_x) / 2 - int(self.a), 480,
-                                    int(self.health), 20)
+        self.health_image.clip_draw(0, 10, int(self.health), 90, (self.left_x + self.right_x) / 2 - int(self.a) - 100
+                                    , 480, int(self.health), 20)
