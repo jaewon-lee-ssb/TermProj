@@ -38,7 +38,6 @@ class IdleState:
         elif event == s_UP:
             cookie.isSlide = False
         cookie.frame = 0
-        cookie.death_frame = 0
         pass
 
     @staticmethod
@@ -75,7 +74,6 @@ class SlideState:
         elif event == s_UP:
             cookie.isSlide = False
         cookie.frame = 0
-        cookie.death_frame = 0
 
     @staticmethod
     def exit(cookie, event):
@@ -107,12 +105,10 @@ class SlideState:
 class JumpState:
     @staticmethod
     def enter(cookie, event):
-        life = main_state.get_health()
         if event == SPACE_DOWN and not cookie.isJump:
             cookie.isJump = True
             cookie.velocity = JUMP_SPEED_PPS / 2.5
             cookie.frame = 0
-            cookie.death_frame = 0
         elif event == s_UP:
             cookie.isSlide = False
         elif event == s_DOWN:
@@ -162,7 +158,6 @@ class DoubleJumpState:
             cookie.isDoubleJump = True
             cookie.velocity = JUMP_SPEED_PPS / 2.5
             cookie.frame = 0
-            cookie.death_frame = 0
         elif event == s_UP:
             cookie.isSlide = False
         elif event == s_DOWN:
@@ -289,9 +284,9 @@ class Cookie:
 
     def get_bb(self):
         if self.y <= 115 and self.isSlide:
-            return 145, self.y - 45, 255, self.y + 5
+            return 155, self.y - 45, 245, self.y + 5
         else:
-            return 160, self.y - 50, 240, self.y + 50
+            return 170, self.y - 40, 230, self.y + 40
 
     def add_event(self, event):
         self.event_que.insert(0, event)
