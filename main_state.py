@@ -11,6 +11,7 @@ from land import Land
 from land_tile import Tile
 from obstacle import Obstacle
 from health import Health
+from jelly import Jelly
 
 name = "MainState"
 
@@ -19,7 +20,8 @@ land = None
 font = None
 tile = None
 health = None
-obstacles = []
+jelly = None
+obstacle = None
 
 
 def enter():
@@ -38,18 +40,26 @@ def enter():
     global health
     health = Health()
 
+    global jelly
+    jelly = Jelly()
+
 
 def exit():
-    global cookie, land, tile, obstacle, health
+    global cookie, land, tile, obstacle, health, jelly
     del cookie
     del land
     del tile
     del obstacle
     del health
+    del jelly
 
 
 def get_health():
     return health
+
+
+def get_obstacle():
+    return obstacle
 
 
 def pause():
@@ -74,6 +84,7 @@ def handle_events():
 def update():
     land.update()
     tile.update(cookie)
+    jelly.update(cookie)
     obstacle.update(cookie)
     health.update()
     cookie.update()
@@ -83,6 +94,7 @@ def draw():
     clear_canvas()
     land.draw()
     tile.draw(cookie)
+    jelly.draw(cookie)
     obstacle.draw(cookie)
     health.draw()
     cookie.draw()
