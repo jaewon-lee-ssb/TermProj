@@ -10,6 +10,7 @@ from cookie import Cookie
 from land import Land
 from land_tile import Tile
 from obstacle import Obstacle
+from health import Health
 
 name = "MainState"
 
@@ -17,6 +18,7 @@ cookie = None
 land = None
 font = None
 tile = None
+health = None
 obstacles = []
 
 
@@ -33,13 +35,21 @@ def enter():
     global obstacle
     obstacle = Obstacle()
 
+    global health
+    health = Health()
+
 
 def exit():
-    global cookie, land, tile, obstacle
+    global cookie, land, tile, obstacle, health
     del cookie
     del land
     del tile
     del obstacle
+    del health
+
+
+def get_health():
+    return health
 
 
 def pause():
@@ -65,6 +75,7 @@ def update():
     land.update()
     tile.update(cookie)
     obstacle.update(cookie)
+    health.update()
     cookie.update()
 
 
@@ -73,5 +84,6 @@ def draw():
     land.draw()
     tile.draw(cookie)
     obstacle.draw(cookie)
+    health.draw()
     cookie.draw()
     update_canvas()
