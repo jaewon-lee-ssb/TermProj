@@ -1,7 +1,7 @@
 from pico2d import *
-import main_state
-import game_framework
 
+import game_framework
+import main_state
 
 s_DOWN, s_UP, SPACE_DOWN, JumpToIdle, JumpToSlide, CookieDeath = range(6)
 
@@ -109,7 +109,6 @@ class JumpState:
         cookie.y += cookie.velocity
         if cookie.isJump:
             cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
-
             if cookie.y < 115:
                 cookie.y = 115
                 cookie.isJump = False
@@ -168,7 +167,13 @@ class DoubleJumpState:
 
 class DeathState:
     @staticmethod
-    def enter(cookie):
+    def enter(cookie, event):
+        if event == SPACE_DOWN:
+            pass
+        elif event == s_UP:
+            pass
+        elif event == s_DOWN:
+            pass
         cookie.frame = 0
         cookie.delayframe = 5
         pass
@@ -181,13 +186,13 @@ class DeathState:
     def do(cookie):
         cookie.delayframe -= 1
         if cookie.frame < 3 and cookie.delayframe == 0:
-            cookie.frame += 1
+            cookie.frame += FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time
             cookie.delayframe = 5
         pass
 
     @staticmethod
     def draw(cookie):
-        cookie.image5.clip_draw(cookie.frame * 120, 0, cookie.Width + 30, cookie.Height, 200, 100, 150, 130)
+        cookie.image5.clip_draw(int(cookie.frame) * 120, 0, cookie.Width + 30, cookie.Height, 200, 100, 150, 130)
         pass
 
 
@@ -217,7 +222,6 @@ class Cookie:
         self.isSlide = False
         self.isJump = False
         self.isDoubleJump = False
-        self.lifetime = 5000
         self.delayframe = 0
         self.acceleration = 0
         self.image1 = load_image('BraveCookie\\brave_cookie_run.png')

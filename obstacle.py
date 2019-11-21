@@ -1,4 +1,5 @@
 from pico2d import *
+import main_state
 
 
 class Obstacle:
@@ -49,5 +50,5 @@ class Obstacle:
             if cookie.x - pos[0] > 250:
                 self.obstacle_list2.pop(0)
             elif pos[1] < top and (pos[0] - cookie.x + 200 - 20 < left < pos[0] - cookie.x + 200 + 20
-                                    or pos[0] - cookie.x + 200 - 20 < right < pos[0] - cookie.x + 200 + 20):
+                                   or pos[0] - cookie.x + 200 - 20 < right < pos[0] - cookie.x + 200 + 20):
                 self.obstacle_list2.remove(pos)

@@ -9,7 +9,7 @@ class Health:
         if self.health_image is None:
             self.health_image = load_image('Effect\\health_bar.png')
         self.left_x, self.right_x, self.y = 100, 800, 450
-        self.health = 200
+        self.health = 50
         self.a = 0
 
     def update(self):
