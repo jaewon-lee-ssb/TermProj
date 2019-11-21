@@ -1,5 +1,5 @@
 from pico2d import *
-from Position import *
+from position import *
 
 tile_image = None
 

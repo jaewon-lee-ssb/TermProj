@@ -1,4 +1,5 @@
 from pico2d import *
+import main_state
 import game_framework
 
 
@@ -11,12 +12,12 @@ key_event_table = {
 }
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 20.0
+RUN_SPEED_KMPH = 25.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
-JUMP_SPEED_MPM = 20.0
+JUMP_SPEED_MPM = 25.0
 JUMP_SPEED_MPS = (JUMP_SPEED_MPM / 60.0)
 JUMP_SPEED_PPS = (JUMP_SPEED_MPS * PIXEL_PER_METER)
 
@@ -45,10 +46,10 @@ class IdleState:
 
     @staticmethod
     def do(cookie):
+        life = main_state.get_health()
         cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
-        cookie.lifetime -= 1
-        if cookie.lifetime == 0:
+        if life.health < 0:
             cookie.add_event(CookieDeath)
 
     @staticmethod
@@ -71,10 +72,10 @@ class SlideState:
 
     @staticmethod
     def do(cookie):
+        life = main_state.get_health()
         cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
-        cookie.lifetime -= 1
-        if cookie.lifetime == 0:
+        if life.health < 0:
             cookie.add_event(CookieDeath)
 
     @staticmethod
@@ -102,7 +103,7 @@ class JumpState:
 
     @staticmethod
     def do(cookie):
-        cookie.lifetime -= 1
+        life = main_state.get_health()
         cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.velocity -= GRAVITY_SPEED_PPS * game_framework.frame_time
         cookie.y += cookie.velocity
@@ -116,7 +117,7 @@ class JumpState:
                     cookie.add_event(JumpToIdle)
                 elif cookie.isSlide:
                     cookie.add_event(JumpToSlide)
-        if cookie.lifetime == 0:
+        if life.health < 0:
             cookie.add_event(CookieDeath)
 
     @staticmethod
@@ -142,8 +143,8 @@ class DoubleJumpState:
 
     @staticmethod
     def do(cookie):
+        life = main_state.get_health()
         cookie.x += RUN_SPEED_PPS * game_framework.frame_time
-        cookie.lifetime -= 1
         if cookie.isDoubleJump:
             if cookie.frame < 8:
                 cookie.frame += FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time
@@ -157,7 +158,7 @@ class DoubleJumpState:
                     cookie.add_event(JumpToIdle)
                 elif cookie.isSlide:
                     cookie.add_event(JumpToSlide)
-        if cookie.lifetime == 0:
+        if life.health < 0:
             cookie.add_event(CookieDeath)
 
     @staticmethod
@@ -167,7 +168,7 @@ class DoubleJumpState:
 
 class DeathState:
     @staticmethod
-    def enter(cookie, event):
+    def enter(cookie):
         cookie.frame = 0
         cookie.delayframe = 5
         pass
@@ -240,10 +241,10 @@ class Cookie:
         pass
 
     def get_bb(self):
-        if not self.isSlide:
-            return 160, self.y - 50, 240, self.y + 50
-        else:
+        if self.y <= 115 and self.isSlide:
             return 145, self.y - 45, 255, self.y + 5
+        else:
+            return 160, self.y - 50, 240, self.y + 50
 
     def add_event(self, event):
         self.event_que.insert(0, event)
