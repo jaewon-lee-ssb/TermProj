@@ -19,8 +19,8 @@ class Health:
 
     def update(self):
         obstacle = main_state.get_obstacle()
-        self.health -= game_framework.frame_time * 10
-        self.move1 += game_framework.frame_time * 5
+        self.health -= game_framework.frame_time * 4
+        self.move1 += game_framework.frame_time * 2
         if obstacle.timer == 3:
             self.move2 += 25
         pass
@@ -30,4 +30,4 @@ class Health:
         self.health_image1.clip_draw(0, 10, int(self.health), 90,
                                      (self.left_x + self.right_x) / 2 - int(self.move1) - int(self.move2) - 100,
                                      450, int(self.health), 20)
-        self.health_image2.clip_draw(1475, 960, 140, 140, 120, 450, 100, 100)
+        self.health_image2.clip_draw(1475, 960, 140, 140, 120, 450, 95, 100)
