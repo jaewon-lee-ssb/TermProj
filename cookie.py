@@ -48,7 +48,8 @@ class IdleState:
     @staticmethod
     def do(cookie):
         life = main_state.get_health()
-        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
+        if life.health > 0:
+            cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         if life.health < 0:
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time \
@@ -83,7 +84,8 @@ class SlideState:
     @staticmethod
     def do(cookie):
         life = main_state.get_health()
-        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
+        if life.health > 0:
+            cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         if life.health < 0:
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time / 3
@@ -105,6 +107,7 @@ class SlideState:
 class JumpState:
     @staticmethod
     def enter(cookie, event):
+        life = main_state.get_health()
         if event == SPACE_DOWN and not cookie.isJump:
             cookie.isJump = True
             cookie.velocity = JUMP_SPEED_PPS / 2.5
@@ -122,7 +125,8 @@ class JumpState:
     @staticmethod
     def do(cookie):
         life = main_state.get_health()
-        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
+        if life.health > 0:
+            cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.velocity -= GRAVITY_SPEED_PPS * game_framework.frame_time
         cookie.y += cookie.velocity
         if cookie.isJump:
@@ -138,6 +142,8 @@ class JumpState:
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time / 3
             if cookie.death_frame > 3:
                 cookie.death_frame = 3
+                if life.health < -10:
+                    game_framework.quit()
 
     @staticmethod
     def draw(cookie):
@@ -169,7 +175,8 @@ class DoubleJumpState:
     @staticmethod
     def do(cookie):
         life = main_state.get_health()
-        cookie.x += RUN_SPEED_PPS * game_framework.frame_time
+        if life.health > 0:
+            cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         if cookie.isDoubleJump:
             if cookie.frame < 8:
                 cookie.frame += FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time
@@ -187,6 +194,8 @@ class DoubleJumpState:
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time / 3
             if cookie.death_frame > 3:
                 cookie.death_frame = 3
+                if life.health < -10:
+                    game_framework.quit()
 
     @staticmethod
     def draw(cookie):
