@@ -12,7 +12,7 @@ class Jelly:
         if self.jelly_image is None:
             self.jelly_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Jelly\\Jelly.png')
         self.jelly_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Jelly.ogg')
-        self.jelly_sound.set_volume(50)
+        self.jelly_sound.set_volume(20)
 
         self.score = 0
 

@@ -15,7 +15,7 @@ class Land:
         if self.land2_2_image is None:
             self.land2_2_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage2_bg.png')
         self.land1_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Land11.ogg')
-        self.land1_sound.set_volume(50)
+        self.land1_sound.set_volume(10)
         self.land1_sound.repeat_play()
 
     def update(self):

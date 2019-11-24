@@ -14,7 +14,7 @@ class Item:
         if self.hp_item_image is None:
             self.hp_item_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Jelly\\Jelly.png')
         self.hp_item_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Hp_item.ogg')
-        self.hp_item_sound.set_volume(80)
+        self.hp_item_sound.set_volume(30)
         self.hp_item_list = [[5500, 200]]
         self.frame = 0
         self.count = 0

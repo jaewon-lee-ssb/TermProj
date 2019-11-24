@@ -311,11 +311,13 @@ class Cookie:
         if self.image is None:
             self.image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\BraveCookie\\Brave Cookie.png')
         self.jump_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Jump.ogg')
+        self.jump_sound.set_volume(20)
         self.slide_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Slide.ogg')
+        self.slide_sound.set_volume(20)
         self.death_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Death.ogg')
-        self.death_sound.set_volume(120)
+        self.death_sound.set_volume(30)
         self.collide_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Collide.ogg')
-        self.collide_sound.set_volume(80)
+        self.collide_sound.set_volume(50)
         self.Width, self.Height = 80, 100
         self.x, self.y = 150, 150
         self.frame = 0

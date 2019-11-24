@@ -10,7 +10,7 @@ class Lobby:
 
         self.x, self.y = 500, 250
         self.lobby_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Lobby.ogg')
-        self.lobby_sound.set_volume(50)
+        self.lobby_sound.set_volume(10)
         self.lobby_sound.repeat_play()
 
     def update(self):
