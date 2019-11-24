@@ -10,8 +10,8 @@ class Jelly:
     def __init__(self):
         obstacle = main_state.get_obstacle()
         if self.jelly_image is None:
-            self.jelly_image = load_image('Jelly\\Jelly.png')
-        self.jelly_sound = load_wav('Sound\\Jelly.ogg')
+            self.jelly_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Jelly\\Jelly.png')
+        self.jelly_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Jelly.ogg')
         self.jelly_sound.set_volume(50)
 
         self.score = 0

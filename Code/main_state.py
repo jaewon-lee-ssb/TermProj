@@ -3,7 +3,6 @@ import json
 import os
 
 from pico2d import *
-import game_world
 import game_framework
 
 from cookie import Cookie

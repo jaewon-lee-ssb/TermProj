@@ -10,7 +10,7 @@ class Tile:
     def __init__(self):
         global tile_image
         if tile_image is None:
-            tile_image = load_image('Land\\land1_stage1_ob.png')
+            tile_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_ob.png')
         for i in range(1000):
             temp = Position()
             temp.x = 20 + i*63

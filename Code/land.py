@@ -5,8 +5,10 @@ class Land:
     def __init__(self):
         self.x1, self.x2, self.y = 500, 1500, 250
         self.Width, self.Height = 1000, 500
-        self.image1_1 = load_image('Land\\land1_stage1_bg.png')
-        self.image1_2 = load_image('Land\\land1_stage1_bg.png')
+        self.image1_1 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_bg.png')
+        self.image1_2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_bg.png')
+        self.land1_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Land1.ogg')
+        self.land1_sound.repeat_play()
 
     def update(self):
         pass

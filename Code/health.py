@@ -9,9 +9,9 @@ class Health:
 
     def __init__(self):
         if self.health_image1 is None:
-            self.health_image1 = load_image('Effect\\health_bar.png')
+            self.health_image1 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Effect\\health_bar.png')
         if self.health_image2 is None:
-            self.health_image2 = load_image('Jelly\\Jelly.png')
+            self.health_image2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Jelly\\Jelly.png')
         self.left_x, self.right_x, self.y = 100, 800, 450
         self.health = 400
         self.move1 = 0

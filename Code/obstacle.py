@@ -10,11 +10,11 @@ class Obstacle:
 
     def __init__(self):
         if self.obstacle_image1 is None:
-            self.obstacle_image1 = load_image('Land\\land1_stage1_ob.png')
+            self.obstacle_image1 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_ob.png')
         if self.obstacle_image2 is None:
-            self.obstacle_image2 = load_image('Land\\land1_stage1_ob.png')
+            self.obstacle_image2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_ob.png')
         if self.obstacle_image3 is None:
-            self.obstacle_image3 = load_image('Land\\land1_stage1_ob.png')
+            self.obstacle_image3 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_ob.png')
 
         self.isCollide = False
         self.timer = 0

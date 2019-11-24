@@ -5,7 +5,7 @@ import main_state
 class Font:
 
     def __init__(self):
-        self.font = load_font('Font\\CookieRun Black.ttf', 20)
+        self.font = load_font('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Font\\CookieRun Black.ttf', 20)
         self.x, self.y = 850, 450
 
     def draw(self):
