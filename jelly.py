@@ -55,15 +55,6 @@ class Jelly:
         # self.obstacle_list3 = [[1250, 135], [2250, 135], [3100, 135], [3400, 135], [3700, 135], [4300, 135],
         #                       [4900, 135]]
 
-    def jelly_up(self, i):
-        (i - 1).y += 50
-        (i + 1).y += 50
-
-    def aaaa(self):
-        jelly_iter = self.jelly_list.__iter__()
-
-
-
     def draw(self, cookie):
         for pos in self.jelly_list:
             self.jelly_image.clip_draw(242, 668, 55, 50, pos.x - cookie.x + 200, pos.y, 45, 40)
