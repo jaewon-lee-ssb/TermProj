@@ -12,6 +12,8 @@ class Jelly:
         if self.jelly_image is None:
             self.jelly_image = load_image('Jelly\\Jelly.png')
 
+        self.score = 0
+
         for i in range(1000):
             temp = position.Position()
             temp.x = 300 + 50 * i
@@ -79,3 +81,4 @@ class Jelly:
                     and (pos.x - cookie.x + 200 - 20 < left < pos.x - cookie.x + 200 + 20
                          or pos.x - cookie.x + 200 - 20 < right < pos.x - cookie.x + 200 + 20):
                 self.jelly_list.remove(pos)
+                self.score += 246

@@ -47,6 +47,7 @@ class IdleState:
     @staticmethod
     def do(cookie):
         life = main_state.get_health()
+        obstacle = main_state.get_obstacle()
         if life.health > 0:
             cookie.x += RUN_SPEED_PPS * game_framework.frame_time
         cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4

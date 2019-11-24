@@ -12,6 +12,7 @@ from land_tile import Tile
 from obstacle import Obstacle
 from health import Health
 from jelly import Jelly
+from font import Font
 
 name = "MainState"
 
@@ -43,15 +44,19 @@ def enter():
     global jelly
     jelly = Jelly()
 
+    global font
+    font = Font()
+
 
 def exit():
-    global cookie, land, tile, obstacle, health, jelly
+    global cookie, land, tile, obstacle, health, jelly, font
     del cookie
     del land
     del tile
     del obstacle
     del health
     del jelly
+    del font
 
 
 def get_health():
@@ -60,6 +65,10 @@ def get_health():
 
 def get_obstacle():
     return obstacle
+
+
+def get_jelly():
+    return jelly
 
 
 def pause():
@@ -97,5 +106,6 @@ def draw():
     jelly.draw(cookie)
     obstacle.draw(cookie)
     health.draw()
+    font.draw()
     cookie.draw()
     update_canvas()
