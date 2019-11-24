@@ -2,6 +2,7 @@ from pico2d import *
 
 import game_framework
 import main_state
+import start_state
 
 s_DOWN, s_UP, SPACE_DOWN, JumpToIdle, JumpToSlide, CookieDeath = range(6)
 
@@ -61,7 +62,7 @@ class IdleState:
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
                 if life.health < -10:
-                    game_framework.quit()
+                    game_framework.change_state(start_state)
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
@@ -117,7 +118,7 @@ class SlideState:
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
                 if life.health < -10:
-                    game_framework.quit()
+                    game_framework.change_state(start_state)
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
@@ -189,7 +190,7 @@ class JumpState:
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
                 if life.health < -10:
-                    game_framework.quit()
+                    game_framework.change_state(start_state)
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
@@ -265,7 +266,7 @@ class DoubleJumpState:
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
                 if life.health < -10:
-                    game_framework.quit()
+                    game_framework.change_state(start_state)
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
@@ -312,11 +313,11 @@ class Cookie:
         self.jump_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Jump.ogg')
         self.slide_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Slide.ogg')
         self.death_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Death.ogg')
-        self.death_sound.set_volume(50)
+        self.death_sound.set_volume(120)
         self.collide_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Collide.ogg')
         self.collide_sound.set_volume(80)
         self.Width, self.Height = 80, 100
-        self.x, self.y = 200, 150
+        self.x, self.y = 5000, 150
         self.frame = 0
         self.velocity = 0
         self.movement = 0
@@ -367,7 +368,7 @@ class Cookie:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
         pass
 
     def handle_event(self, event):

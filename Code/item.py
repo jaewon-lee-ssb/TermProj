@@ -39,6 +39,6 @@ class Item:
         cookie = main_state.get_cookie()
         for pos in self.hp_item_list:
             self.hp_item_image.clip_draw(1474 + int(self.frame) * 146, 958, 144, 144, pos[0] - cookie.x + 200, pos[1], 100, 100)
-            draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 30, pos[0] - cookie.x + 200 + 30, pos[1] + 30)
+            # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 30, pos[0] - cookie.x + 200 + 30, pos[1] + 30)
             if pos[0] - cookie.x > 1000:
                 break

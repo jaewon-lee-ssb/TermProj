@@ -7,7 +7,7 @@ class Land:
         self.Width, self.Height = 1000, 500
         self.image1_1 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_bg.png')
         self.image1_2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_bg.png')
-        self.land1_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Land1.ogg')
+        self.land1_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Land11.ogg')
         self.land1_sound.repeat_play()
 
     def update(self):

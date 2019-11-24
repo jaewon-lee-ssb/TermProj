@@ -60,7 +60,7 @@ class Jelly:
     def draw(self, cookie):
         for pos in self.jelly_list:
             self.jelly_image.clip_draw(242, 668, 55, 50, pos.x - cookie.x + 200, pos.y, 45, 40)
-            draw_rectangle(pos.x - cookie.x + 200 - 20, pos.y - 20, pos.x - cookie.x + 200 + 20, pos.y + 20)
+            # draw_rectangle(pos.x - cookie.x + 200 - 20, pos.y - 20, pos.x - cookie.x + 200 + 20, pos.y + 20)
             if pos.x - cookie.x > 1000:
                 break
 
