@@ -11,6 +11,8 @@ class Jelly:
         obstacle = main_state.get_obstacle()
         if self.jelly_image is None:
             self.jelly_image = load_image('Jelly\\Jelly.png')
+        self.jelly_sound = load_wav('Sound\\Jelly.ogg')
+        self.jelly_sound.set_volume(50)
 
         self.score = 0
 
@@ -73,3 +75,4 @@ class Jelly:
                          or pos.x - cookie.x + 200 - 20 < right < pos.x - cookie.x + 200 + 20):
                 self.jelly_list.remove(pos)
                 self.score += 246
+                self.jelly_sound.play(1)
