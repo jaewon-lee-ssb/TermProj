@@ -25,6 +25,7 @@ health = None
 jelly = None
 obstacle = None
 item = None
+sound = None
 
 
 def enter():
@@ -79,6 +80,10 @@ def get_jelly():
 
 def get_cookie():
     return cookie
+
+
+def get_item():
+    return item
 
 
 def pause():
