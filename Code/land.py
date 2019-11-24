@@ -1,12 +1,19 @@
 from pico2d import *
+import main_state
 
 
 class Land:
+    land1_image = None
+    land2_1_image = None
+    land2_2_image = None
+
     def __init__(self):
-        self.x1, self.x2, self.y = 500, 1500, 250
-        self.Width, self.Height = 1000, 500
-        self.image1_1 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_bg.png')
-        self.image1_2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_bg.png')
+        if self.land1_image is None:
+            self.land1_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_bg.png')
+        if self.land2_1_image is None:
+            self.land2_1_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage2_bg.png')
+        if self.land2_2_image is None:
+            self.land2_2_image = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage2_bg.png')
         self.land1_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Land11.ogg')
         self.land1_sound.repeat_play()
 
@@ -14,5 +21,9 @@ class Land:
         pass
 
     def draw(self):
-        self.image1_1.clip_draw(0, 0, self.Width, self.Height, self.x1, self.y)
-        self.image1_2.clip_draw(0, 0, self.Width, self.Height, self.x2, self.y)
+        cookie = main_state.get_cookie()
+        if cookie.x < 5400:
+            self.land1_image.clip_draw(0, 0, 1000, 500, 500, 250)
+        else:
+            self.land2_2_image.clip_draw(1100, 0, 600, 500, 300, 250)
+            self.land2_1_image.clip_draw(0, 0, 1000, 500, 499, 250)

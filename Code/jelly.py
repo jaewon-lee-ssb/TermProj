@@ -22,12 +22,20 @@ class Jelly:
             temp.y = 100
             self.jelly_list.append(temp)
 
-        for pos in obstacle.obstacle_list2:
+        for pos in obstacle.land1_obstacle_list2:
             for i in self.jelly_list:
                 if pos[0] == i.x:
                     i.y += 100
+        for pos in obstacle.land1_obstacle_list3:
+            for i in self.jelly_list:
+                if pos[0] == i.x:
+                    i.y += 150
 
-        for pos in obstacle.obstacle_list3:
+        for pos in obstacle.land2_obstacle_list2:
+            for i in self.jelly_list:
+                if pos[0] == i.x:
+                    i.y += 100
+        for pos in obstacle.land2_obstacle_list3:
             for i in self.jelly_list:
                 if pos[0] == i.x:
                     i.y += 150
@@ -43,19 +51,6 @@ class Jelly:
                     self.jelly_list[i - 1].y += 100
                 if i + 1 < len(self.jelly_list):
                     self.jelly_list[i + 1].y += 100
-        # self.jelly_list = [[400, 100], [450, 100], [500, 100], [550, 100], [600, 100], [650, 100], [700, 100],
-        #                   [750, 100], [800, 100], [850, 100], [900, 100], [950, 100], [1000, 100], [1050, 100],
-        #                   [1100, 100], [1130, 150], [1150, 200], [1170, 240], [1200, 270], [1240, 300], [1270, 270],
-        #                   [1300, 250]]
-        # 천장에 긴 장애물
-        # self.obstacle_list1 = [[1000, 320], [1500, 320], [1600, 320], [1700, 320], [1800, 320], [2500, 320],
-        #                       [2900, 320], [3900, 320], [4000, 320], [4100, 320]]
-        # 바닥에 작은 장애물
-        # self.obstacle_list2 = [[2000, 100], [2200, 100], [2300, 100], [2700, 100], [4550, 100], [4600, 100],
-        #                       [4650, 100]]
-        # 바닥에 긴 장애물
-        # self.obstacle_list3 = [[1250, 135], [2250, 135], [3100, 135], [3400, 135], [3700, 135], [4300, 135],
-        #                       [4900, 135]]
 
     def draw(self, cookie):
         for pos in self.jelly_list:

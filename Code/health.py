@@ -13,7 +13,7 @@ class Health:
         if self.health_image2 is None:
             self.health_image2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Jelly\\Jelly.png')
         self.left_x, self.right_x, self.y = 100, 800, 450
-        self.health = 400
+        self.health = 200
         self.move1 = 0
         self.move2 = 0
         self.move3 = 0
@@ -31,6 +31,6 @@ class Health:
     def draw(self):
         obstacle = main_state.get_obstacle()
         self.health_image1.clip_draw(0, 10, int(self.health), 90,
-                                     int(self.health) - 50 + self.move1 + self.move2 - self.move3,
+                                     int(self.health) + 55 + self.move1 + self.move2 - self.move3,
                                      450, int(self.health), 20)
         self.health_image2.clip_draw(1475, 960, 140, 140, 120, 450, 95, 100)
