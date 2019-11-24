@@ -54,6 +54,9 @@ class IdleState:
         cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
 
         if life.health < 0:
+            cookie.death_count += 1
+            if cookie.death_count == 1:
+                cookie.death()
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time / 3
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
@@ -62,6 +65,7 @@ class IdleState:
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
+            cookie.collide_sound.play(1)
             cookie.collide_time = 1
 
         if cookie.isCollide:
@@ -86,6 +90,7 @@ class SlideState:
     def enter(cookie, event):
         if event == s_DOWN:
             cookie.isSlide = True
+            cookie.slide_sound.play(1)
         elif event == s_UP:
             cookie.isSlide = False
         cookie.frame = 0
@@ -105,6 +110,9 @@ class SlideState:
         cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
 
         if life.health < 0:
+            cookie.death_count += 1
+            if cookie.death_count == 1:
+                cookie.death()
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time / 3
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
@@ -113,6 +121,7 @@ class SlideState:
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
+            cookie.collide_sound.play(1)
             cookie.collide_time = 1
 
         if cookie.isCollide:
@@ -140,6 +149,7 @@ class JumpState:
             cookie.velocity = JUMP_SPEED_PPS / 2.5
             cookie.frame = 0
             cookie.collide_time = 0
+            cookie.jump_sound.play(1)
         elif event == s_UP:
             cookie.isSlide = False
         elif event == s_DOWN:
@@ -169,8 +179,12 @@ class JumpState:
                     cookie.add_event(JumpToIdle)
                 elif cookie.isSlide:
                     cookie.add_event(JumpToSlide)
+                    cookie.slide_sound.play(1)
 
         if life.health < 0:
+            cookie.death_count += 1
+            if cookie.death_count == 1:
+                cookie.death()
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time / 3
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
@@ -179,6 +193,7 @@ class JumpState:
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
+            cookie.collide_sound.play(1)
             cookie.collide_time = 1
 
         if cookie.isCollide:
@@ -206,6 +221,7 @@ class DoubleJumpState:
             cookie.velocity = JUMP_SPEED_PPS / 2.5
             cookie.frame = 0
             cookie.count = 1
+            cookie.jump_sound.play(1)
         elif event == s_UP:
             cookie.isSlide = False
         elif event == s_DOWN:
@@ -239,8 +255,12 @@ class DoubleJumpState:
                     cookie.add_event(JumpToIdle)
                 elif cookie.isSlide:
                     cookie.add_event(JumpToSlide)
+                    cookie.slide_sound.play(1)
 
         if life.health < 0:
+            cookie.death_count += 1
+            if cookie.death_count == 1:
+                cookie.death()
             cookie.death_frame = cookie.death_frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time / 3
             if cookie.death_frame > 4:
                 cookie.death_frame = 4
@@ -249,6 +269,7 @@ class DoubleJumpState:
 
         if obstacle.isCollide and not cookie.isCollide:
             cookie.isCollide = True
+            cookie.collide_sound.play(1)
             cookie.collide_time = 1
 
         if cookie.isCollide:
@@ -283,7 +304,17 @@ next_state_table = {
 
 
 class Cookie:
+    image = None
+
     def __init__(self):
+        if self.image is None:
+            self.image = load_image('BraveCookie\\Brave Cookie.png')
+        self.jump_sound = load_wav('Sound\\Jump.ogg')
+        self.slide_sound = load_wav('Sound\\Slide.ogg')
+        self.death_sound = load_wav('Sound\\Death.ogg')
+        self.death_sound.set_volume(50)
+        self.collide_sound = load_wav('Sound\\Collide.ogg')
+        self.collide_sound.set_volume(50)
         self.Width, self.Height = 80, 100
         self.x, self.y = 200, 150
         self.frame = 0
@@ -297,10 +328,13 @@ class Cookie:
         self.delay_frame = 0
         self.death_frame = 0
         self.count = 0
-        self.image = load_image('BraveCookie\\Brave Cookie.png')
+        self.death_count = 0
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
+
+    def death(self):
+        self.death_sound.play(1)
 
     def update_state(self):
         if len(self.event_que) > 0:
@@ -316,7 +350,7 @@ class Cookie:
     def get_bb(self):
         if self.y <= 150 and self.isSlide:  # 슬라이드 시
             return 155, self.y - 80, 245, self.y - 40
-        else:                               # 슬라이드 아닐때
+        else:  # 슬라이드 아닐때
             return 180, self.y - 80, 220, self.y
 
     def add_event(self, event):
