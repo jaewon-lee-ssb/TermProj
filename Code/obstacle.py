@@ -4,27 +4,16 @@ import game_framework
 
 
 class Obstacle:
-    land1_obstacle_image1 = None
-    land1_obstacle_image2 = None
-    land1_obstacle_image3 = None
-
-    land2_obstacle_image1 = None
-    land2_obstacle_image2 = None
-    land2_obstacle_image3 = None
+    image = None
 
     def __init__(self):
-        if self.land1_obstacle_image1 is None:
+        if self.image is None:
             self.land1_obstacle_image1 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_ob.png')
-        if self.land1_obstacle_image2 is None:
             self.land1_obstacle_image2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_ob.png')
-        if self.land1_obstacle_image3 is None:
             self.land1_obstacle_image3 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage1_ob.png')
 
-        if self.land2_obstacle_image1 is None:
             self.land2_obstacle_image1 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage2_ob.png')
-        if self.land2_obstacle_image2 is None:
             self.land2_obstacle_image2 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage2_ob.png')
-        if self.land2_obstacle_image3 is None:
             self.land2_obstacle_image3 = load_image('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage2_ob.png')
 
         self.isCollide = False
@@ -46,41 +35,49 @@ class Obstacle:
         self.land2_obstacle_list3 = [[6400, 135], [6700, 135], [7300, 135], [7750, 135]]
 
     def draw(self, cookie):
-        for pos in self.land1_obstacle_list1:
-            self.land1_obstacle_image1.clip_draw(0, 0, 85, 260, pos[0] - cookie.x + 200, pos[1], 85, 400)
-            # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
-            if pos[0] - cookie.x > 1000:
-                break
+        if cookie.x < 5400:
+            for pos in self.land1_obstacle_list1:
+                # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land1_obstacle_image1.clip_draw(0, 0, 85, 260, pos[0] - cookie.x + 200, pos[1], 85, 400)
 
-        for pos in self.land1_obstacle_list2:
-            self.land1_obstacle_image2.clip_draw(265, 200, 35, 60, pos[0] - cookie.x + 200, pos[1], 50, 70)
-            # draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 20, pos[0] - cookie.x + 200 + 20, pos[1] + 20)
-            if pos[0] - cookie.x > 1000:
-                break
+            for pos in self.land1_obstacle_list2:
+                # draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 20, pos[0] - cookie.x + 200 + 20, pos[1] + 20)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land1_obstacle_image2.clip_draw(265, 200, 35, 60, pos[0] - cookie.x + 200, pos[1], 50, 70)
 
-        for pos in self.land1_obstacle_list3:
-            self.land1_obstacle_image3.clip_draw(145, 0, 65, 110, pos[0] - cookie.x + 200, pos[1], 70, 145)
-            # draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 60, pos[0] - cookie.x + 200 + 20, pos[1] + 60)
-            if pos[0] - cookie.x > 1000:
-                break
+            for pos in self.land1_obstacle_list3:
+                # draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 60, pos[0] - cookie.x + 200 + 20, pos[1] + 60)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land1_obstacle_image3.clip_draw(145, 0, 65, 110, pos[0] - cookie.x + 200, pos[1], 70, 145)
 
-        for pos in self.land2_obstacle_list1:
-            self.land2_obstacle_image1.clip_draw(0, 190, 80, 320, pos[0] - cookie.x + 200, pos[1], 85, 400)
-            # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
-            if pos[0] - cookie.x > 1000:
-                break
+        else:
+            for pos in self.land2_obstacle_list1:
+                # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land2_obstacle_image1.clip_draw(0, 190, 80, 320, pos[0] - cookie.x + 200, pos[1], 85, 400)
 
-        for pos in self.land2_obstacle_list2:
-            self.land2_obstacle_image2.clip_composite_draw(200, 380, 70, 70, 3.141592 / 2, '', pos[0] - cookie.x + 200, pos[1], 70, 70)
-            # draw_rectangle(pos[0] - cookie.x + 200 - 25, pos[1] - 20, pos[0] - cookie.x + 200 + 15, pos[1] + 20)
-            if pos[0] - cookie.x > 1000:
-                break
-
-        for pos in self.land2_obstacle_list3:
-            self.land2_obstacle_image3.clip_draw(0, 65, 65, 120, pos[0] - cookie.x + 200, pos[1], 70, 145)
-            # draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 60, pos[0] - cookie.x + 200 + 20, pos[1] + 60)
-            if pos[0] - cookie.x > 1000:
-                break
+            for pos in self.land2_obstacle_list2:
+                # draw_rectangle(pos[0] - cookie.x + 200 - 25, pos[1] - 20, pos[0] - cookie.x + 200 + 15, pos[1] + 20)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land2_obstacle_image2.clip_composite_draw(200, 380, 70, 70, 3.141592 / 2, '',
+                                                               pos[0] - cookie.x + 200, pos[1], 70, 70)
+            for pos in self.land2_obstacle_list3:
+                # draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 60, pos[0] - cookie.x + 200 + 20, pos[1] + 60)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land2_obstacle_image3.clip_draw(0, 65, 65, 120, pos[0] - cookie.x + 200, pos[1], 70, 145)
 
     def update(self, cookie):
         left, bottom, right, top = cookie.get_bb()

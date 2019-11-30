@@ -16,7 +16,7 @@ class Jelly:
 
         self.score = 0
 
-        for i in range(1000):
+        for i in range(500):
             temp = position.Position()
             temp.x = 300 + 50 * i
             temp.y = 100
