@@ -338,6 +338,7 @@ class Cookie:
 
     def death(self):
         self.death_sound.play(1)
+        pass
 
     def update_state(self):
         if len(self.event_que) > 0:
