@@ -319,7 +319,7 @@ class Cookie:
         self.collide_sound = load_wav('C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Sound\\Collide.ogg')
         self.collide_sound.set_volume(50)
         self.Width, self.Height = 80, 100
-        self.x, self.y = 150, 150
+        self.x, self.y = 100, 150
         self.frame = 0
         self.velocity = 0
         self.movement = 0
