@@ -52,7 +52,6 @@ class Jelly:
                 if i + 1 < len(self.jelly_list):
                     self.jelly_list[i + 1].y += 100
 
-
     def draw(self, cookie):
         for pos in self.jelly_list:
             self.jelly_image.clip_draw(242, 668, 55, 50, pos.x - cookie.x + 200, pos.y, 45, 40)
