@@ -175,12 +175,13 @@ class JumpState:
             cookie.frame = (cookie.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
             if cookie.y < 150:
                 cookie.y = 150
-                cookie.isJump = False
+
                 if not cookie.isSlide:
                     cookie.add_event(JumpToIdle)
                 elif cookie.isSlide:
                     cookie.add_event(JumpToSlide)
                     cookie.slide_sound.play(1)
+                cookie.isJump = False
 
         if life.health < 0:
             cookie.death_count += 1
@@ -250,13 +251,14 @@ class DoubleJumpState:
             cookie.y += cookie.velocity
             if cookie.y < 150:
                 cookie.y = 150
-                cookie.isJump = False
-                cookie.isDoubleJump = False
+
                 if not cookie.isSlide:
                     cookie.add_event(JumpToIdle)
                 elif cookie.isSlide:
                     cookie.add_event(JumpToSlide)
                     cookie.slide_sound.play(1)
+                cookie.isJump = False
+                cookie.isDoubleJump = False
 
         if life.health < 0:
             cookie.death_count += 1
