@@ -47,9 +47,9 @@ class Obstacle:
                                      [8550, 100]]
         self.land2_obstacle_list3 = [[6400, 135], [6700, 135], [7300, 135], [7750, 135]]
         # 3 스테이지
-        self.land3_obstacle_list1 = [[8850, 320], [9200, 320], [9900, 320], [10000, 320], [10100, 320]]
-        self.land3_obstacle_list2 = [[9050, 100], [10300, 100], [10400, 100]]
-        self.land3_obstacle_list3 = [[8650, 135], [9400, 135], [9450, 135], [9700, 135], [9750, 135], [10350, 135]]
+        self.land3_obstacle_list1 = [[10050, 320], [10400, 320], [11100, 320], [11200, 320], [11300, 320]]
+        self.land3_obstacle_list2 = [[10250, 100], [11500, 100], [11600, 100], [11800, 100], [12000, 100]]
+        self.land3_obstacle_list3 = [[9850, 135], [10600, 135], [10650, 135], [10900, 135], [10950, 135], [11550, 135]]
 
     def draw(self, cookie):
         # 1스테이지 장애물
@@ -75,7 +75,7 @@ class Obstacle:
                 else:
                     self.land1_obstacle_image3.clip_draw(145, 0, 65, 110, pos[0] - cookie.x + 200, pos[1], 70, 145)
         # 2스테이지 장애물
-        elif 5400 < cookie.x < 8000:
+        elif 5400 < cookie.x < 8800:
             for pos in self.land2_obstacle_list1:
                 # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
                 if pos[0] - cookie.x > 1000:
@@ -97,7 +97,7 @@ class Obstacle:
                 else:
                     self.land2_obstacle_image3.clip_draw(0, 65, 65, 120, pos[0] - cookie.x + 200, pos[1], 70, 145)
         # 3스테이지 장애물
-        else:
+        elif 8800 < cookie.x:
             for pos in self.land3_obstacle_list1:
                 # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
                 if pos[0] - cookie.x > 1000:
@@ -113,7 +113,7 @@ class Obstacle:
                     self.land3_obstacle_image2.clip_composite_draw(215, 580, 75, 70, 3.141592 / 2, '',
                                                                    pos[0] - cookie.x + 200, pos[1], 70, 70)
             for pos in self.land3_obstacle_list3:
-                draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 60, pos[0] - cookie.x + 200 + 20, pos[1] + 60)
+                # draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 60, pos[0] - cookie.x + 200 + 20, pos[1] + 60)
                 if pos[0] - cookie.x > 1000:
                     break
                 else:
