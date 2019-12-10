@@ -22,6 +22,7 @@ class Jelly:
             temp.y = 100
             self.jelly_list.append(temp)
 
+        # 젤리 올리기
         for pos in obstacle.land1_obstacle_list2:
             for i in self.jelly_list:
                 if pos[0] == i.x:
@@ -36,6 +37,15 @@ class Jelly:
                 if pos[0] == i.x:
                     i.y += 100
         for pos in obstacle.land2_obstacle_list3:
+            for i in self.jelly_list:
+                if pos[0] == i.x:
+                    i.y += 150
+
+        for pos in obstacle.land3_obstacle_list2:
+            for i in self.jelly_list:
+                if pos[0] == i.x:
+                    i.y += 100
+        for pos in obstacle.land3_obstacle_list3:
             for i in self.jelly_list:
                 if pos[0] == i.x:
                     i.y += 150
