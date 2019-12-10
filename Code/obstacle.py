@@ -22,6 +22,13 @@ class Obstacle:
             self.land2_obstacle_image3 = load_image(
                 'C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage2_ob.png')
 
+            self.land3_obstacle_image1 = load_image(
+                'C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage3_ob.png')
+            self.land3_obstacle_image2 = load_image(
+                'C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage3_ob.png')
+            self.land3_obstacle_image3 = load_image(
+                'C:\\Users\\jaewo\\Desktop\\2DGP\\TermProj\\Land\\land1_stage3_ob.png')
+
         self.isCollide = False
         self.timer = 0
 
@@ -35,18 +42,17 @@ class Obstacle:
         self.land1_obstacle_list3 = [[1250, 135], [2250, 135], [3100, 135], [3400, 135], [3700, 135], [4300, 135],
                                      [4900, 135]]
 
-        self.land2_obstacle_list1 = [[6900, 320], [7000, 320], [7100, 320], [8300, 320], [8400, 320], [8850, 320],
-                                     [9200, 320], [9900, 320], [10000, 320], [10100, 320]]
+        self.land2_obstacle_list1 = [[6900, 320], [7000, 320], [7100, 320], [8300, 320], [8400, 320]]
         self.land2_obstacle_list2 = [[6000, 100], [6200, 100], [7500, 100], [8000, 100], [8050, 100], [8100, 100],
-                                     [8550, 100], [9050, 100], [10300, 100], [10400, 100]]
-        self.land2_obstacle_list3 = [[6400, 135], [6700, 135], [7300, 135], [7750, 135], [8650, 135], [9400, 135],
-                                     [9450, 135], [9700, 135], [9750, 135], [10350, 135]]
+                                     [8550, 100]]
+        self.land2_obstacle_list3 = [[6400, 135], [6700, 135], [7300, 135], [7750, 135]]
         # 3 스테이지
-        self.land3_obstacle_list1 = []
-        self.land3_obstacle_list2 = []
-        self.land3_obstacle_list3 = []
+        self.land3_obstacle_list1 = [[8850, 320], [9200, 320], [9900, 320], [10000, 320], [10100, 320]]
+        self.land3_obstacle_list2 = [[9050, 100], [10300, 100], [10400, 100]]
+        self.land3_obstacle_list3 = [[8650, 135], [9400, 135], [9450, 135], [9700, 135], [9750, 135], [10350, 135]]
 
     def draw(self, cookie):
+        # 1스테이지 장애물
         if cookie.x < 5400:
             for pos in self.land1_obstacle_list1:
                 # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
@@ -68,8 +74,8 @@ class Obstacle:
                     break
                 else:
                     self.land1_obstacle_image3.clip_draw(145, 0, 65, 110, pos[0] - cookie.x + 200, pos[1], 70, 145)
-
-        else:
+        # 2스테이지 장애물
+        elif 5400 < cookie.x < 8000:
             for pos in self.land2_obstacle_list1:
                 # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
                 if pos[0] - cookie.x > 1000:
@@ -90,6 +96,14 @@ class Obstacle:
                     break
                 else:
                     self.land2_obstacle_image3.clip_draw(0, 65, 65, 120, pos[0] - cookie.x + 200, pos[1], 70, 145)
+        # 3스테이지 장애물
+        else:
+            for pos in self.land3_obstacle_list1:
+                draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land3_obstacle_image1.clip_draw(110, 230, 80, 230, pos[0] - cookie.x + 200, pos[1], 85, 400)
 
     def update(self, cookie):
         left, bottom, right, top = cookie.get_bb()
@@ -98,7 +112,7 @@ class Obstacle:
             self.timer -= game_framework.frame_time
         if self.timer < 0:
             self.isCollide = False
-
+        # 1스테이지 장애물 충돌체크
         for pos in self.land1_obstacle_list1:
             if cookie.x - pos[0] > 250:
                 self.land1_obstacle_list1.pop(0)
@@ -109,18 +123,6 @@ class Obstacle:
                 life.health -= 50
                 self.isCollide = True
                 self.timer = 3
-
-        for pos in self.land2_obstacle_list1:
-            if cookie.x - pos[0] > 250:
-                self.land2_obstacle_list1.pop(0)
-            elif pos[0] - cookie.x < 400 and pos[1] - 180 < top \
-                    and (pos[0] - cookie.x + 200 - 30 < left < pos[0] - cookie.x + 200 + 30
-                         or pos[0] - cookie.x + 200 - 30 < right < pos[0] - cookie.x + 200 + 30) \
-                    and not self.isCollide:
-                life.health -= 50
-                self.isCollide = True
-                self.timer = 3
-
         for pos in self.land1_obstacle_list2:
             if cookie.x - pos[0] > 250:
                 self.land1_obstacle_list2.pop(0)
@@ -131,18 +133,6 @@ class Obstacle:
                 life.health -= 50
                 self.isCollide = True
                 self.timer = 3
-
-        for pos in self.land2_obstacle_list2:
-            if cookie.x - pos[0] > 250:
-                self.land2_obstacle_list2.pop(0)
-            elif pos[0] - cookie.x < 400 and pos[1] + 20 > bottom \
-                    and (pos[0] - cookie.x + 200 - 25 < left < pos[0] - cookie.x + 200 + 15
-                         or pos[0] - cookie.x + 200 - 25 < right < pos[0] - cookie.x + 200 + 15) \
-                    and not self.isCollide:
-                life.health -= 50
-                self.isCollide = True
-                self.timer = 3
-
         for pos in self.land1_obstacle_list3:
             if cookie.x - pos[0] > 250:
                 self.land1_obstacle_list3.pop(0)
@@ -153,7 +143,27 @@ class Obstacle:
                 life.health -= 50
                 self.isCollide = True
                 self.timer = 3
-
+        # 2스테이지 장애물 충돌체크
+        for pos in self.land2_obstacle_list1:
+            if cookie.x - pos[0] > 250:
+                self.land2_obstacle_list1.pop(0)
+            elif pos[0] - cookie.x < 400 and pos[1] - 180 < top \
+                    and (pos[0] - cookie.x + 200 - 30 < left < pos[0] - cookie.x + 200 + 30
+                         or pos[0] - cookie.x + 200 - 30 < right < pos[0] - cookie.x + 200 + 30) \
+                    and not self.isCollide:
+                life.health -= 50
+                self.isCollide = True
+                self.timer = 3
+        for pos in self.land2_obstacle_list2:
+            if cookie.x - pos[0] > 250:
+                self.land2_obstacle_list2.pop(0)
+            elif pos[0] - cookie.x < 400 and pos[1] + 20 > bottom \
+                    and (pos[0] - cookie.x + 200 - 25 < left < pos[0] - cookie.x + 200 + 15
+                         or pos[0] - cookie.x + 200 - 25 < right < pos[0] - cookie.x + 200 + 15) \
+                    and not self.isCollide:
+                life.health -= 50
+                self.isCollide = True
+                self.timer = 3
         for pos in self.land2_obstacle_list3:
             if cookie.x - pos[0] > 250:
                 self.land2_obstacle_list3.pop(0)
@@ -164,3 +174,4 @@ class Obstacle:
                 life.health -= 50
                 self.isCollide = True
                 self.timer = 3
+        # 3스테이지 장애물 충돌체크
