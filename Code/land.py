@@ -40,7 +40,7 @@ class Land:
         cookie = main_state.get_cookie()
         if cookie.x < 5400:
             self.land1_image.clip_draw(0, 0, 1000, 500, 500, 250)
-        elif 5400 < cookie.x < 8000:
+        elif 5400 < cookie.x < 8800:
             self.land2_2_image.clip_draw(1100, 0, 600, 500, 300, 250)
             self.land2_1_image.clip_draw(0, 0, 1000, 500, 499, 250)
         else:
