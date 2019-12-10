@@ -99,11 +99,26 @@ class Obstacle:
         # 3스테이지 장애물
         else:
             for pos in self.land3_obstacle_list1:
-                draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
+                # draw_rectangle(pos[0] - cookie.x + 200 - 30, pos[1] - 180, pos[0] - cookie.x + 200 + 30, pos[1] + 160)
                 if pos[0] - cookie.x > 1000:
                     break
                 else:
-                    self.land3_obstacle_image1.clip_draw(110, 230, 80, 230, pos[0] - cookie.x + 200, pos[1], 85, 400)
+                    self.land3_obstacle_image1.clip_composite_draw(0, 850, 230, 80, 3.141592 / 2, '',
+                                                                   pos[0] - cookie.x + 200, pos[1] - 75, 230, 85)
+            for pos in self.land3_obstacle_list2:
+                # draw_rectangle(pos[0] - cookie.x + 200 - 25, pos[1] - 20, pos[0] - cookie.x + 200 + 15, pos[1] + 20)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land3_obstacle_image2.clip_composite_draw(215, 580, 75, 70, 3.141592 / 2, '',
+                                                                   pos[0] - cookie.x + 200, pos[1], 70, 70)
+            for pos in self.land3_obstacle_list3:
+                draw_rectangle(pos[0] - cookie.x + 200 - 20, pos[1] - 60, pos[0] - cookie.x + 200 + 20, pos[1] + 60)
+                if pos[0] - cookie.x > 1000:
+                    break
+                else:
+                    self.land3_obstacle_image3.clip_composite_draw(0, 625, 140, 70, 3.141592 / 2, '',
+                                                                   pos[0] - cookie.x + 200, pos[1], 145, 70)
 
     def update(self, cookie):
         left, bottom, right, top = cookie.get_bb()
@@ -175,3 +190,33 @@ class Obstacle:
                 self.isCollide = True
                 self.timer = 3
         # 3스테이지 장애물 충돌체크
+        for pos in self.land3_obstacle_list1:
+            if cookie.x - pos[0] > 250:
+                self.land3_obstacle_list1.pop(0)
+            elif pos[0] - cookie.x < 400 and pos[1] - 180 < top \
+                    and (pos[0] - cookie.x + 200 - 30 < left < pos[0] - cookie.x + 200 + 30
+                         or pos[0] - cookie.x + 200 - 30 < right < pos[0] - cookie.x + 200 + 30) \
+                    and not self.isCollide:
+                life.health -= 50
+                self.isCollide = True
+                self.timer = 3
+        for pos in self.land3_obstacle_list2:
+            if cookie.x - pos[0] > 250:
+                self.land3_obstacle_list2.pop(0)
+            elif pos[0] - cookie.x < 400 and pos[1] + 20 > bottom \
+                    and (pos[0] - cookie.x + 200 - 25 < left < pos[0] - cookie.x + 200 + 15
+                         or pos[0] - cookie.x + 200 - 25 < right < pos[0] - cookie.x + 200 + 15) \
+                    and not self.isCollide:
+                life.health -= 50
+                self.isCollide = True
+                self.timer = 3
+        for pos in self.land3_obstacle_list3:
+            if cookie.x - pos[0] > 250:
+                self.land3_obstacle_list3.pop(0)
+            elif pos[0] - cookie.x < 400 and pos[1] + 60 > bottom \
+                    and (pos[0] - cookie.x + 200 - 20 < left < pos[0] - cookie.x + 200 + 20
+                         or pos[0] - cookie.x + 200 - 20 < right < pos[0] - cookie.x + 200 + 20) \
+                    and not self.isCollide:
+                life.health -= 50
+                self.isCollide = True
+                self.timer = 3
